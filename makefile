@@ -50,6 +50,7 @@ $(info export IBM_JAVA_OPTIONS="-Dfile.encoding=COMPAT")
 endif
 endif
 
+
 export LIB_DIR:=$(subst \,/,$(LIB_DIR))
 $(info LIB_DIR is set to $(LIB_DIR))
 
