@@ -38,12 +38,7 @@
 			<classpath>
 				<pathelement location="${json.jar}" />
 			</classpath>
-			<if>
-			<matches pattern="^21$" string="${JDK_VERSION}"/>
-			<then>
-			    <compilerarg value="-J-Dfile.encoding=IBM-1047" />
-			</then>
-			</if>
+			<compilerarg value="-J-Dfile.encoding=IBM-1047" />
 		</javac>
 	</target>
 
