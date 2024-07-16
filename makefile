@@ -92,6 +92,7 @@ compile: buildListGen
 #######################################
 envDetect: compileTools
 	${TEST_JDK_HOME}$(D)bin$(D)java -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
+	find . | grep autoGenEnv.mk$ | while read f; do echo $f; iconv -f iso8859-1 -t ibm-1047 < $f > $f.ebcdic; rm $f; mv $f.ebcdic $f; done
 
 
 #######################################
@@ -112,18 +113,10 @@ endif
 include moveDmp.mk
 COMPILE_TOOLS_CMD=ant -f .$(D)scripts$(D)build_tools.xml -DTEST_JDK_HOME=$(TEST_JDK_HOME) -DTEST_ROOT=$(TEST_ROOT) -DLIB_DIR=$(LIB_DIR)
 
-######################################
-# Convert autoGenEnv and utils
-######################################
-ifeq (file exists,$(call file_exists, .$(D)autoGenEnv.mk))
-    CONVERT_CMD=find . | grep autoGenEnv.mk$ | while read f; do echo $f; iconv -f iso8859-1 -t ibm-1047 < $f > $f.ebcdic; rm $f; mv $f.ebcdic $f; done;
-endif
-
 compileTools:
 	$(RM) -r $(COMPILATION_OUTPUT); \
 	$(MKTREE) $(COMPILATION_OUTPUT); \
 	($(COMPILE_TOOLS_CMD) 2>&1; echo $$? ) | tee $(Q)$(COMPILATION_LOG)$(Q); \
-	$(CONVERT_CMD);
 	$(MOVE_TDUMP)
 
 #######################################
