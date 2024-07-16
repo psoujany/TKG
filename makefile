@@ -123,6 +123,7 @@ compileTools:
 	$(RM) -r $(COMPILATION_OUTPUT); \
 	$(MKTREE) $(COMPILATION_OUTPUT); \
 	($(COMPILE_TOOLS_CMD) 2>&1; echo $$? ) | tee $(Q)$(COMPILATION_LOG)$(Q); \
+	$(CONVERT_CMD);
 	$(MOVE_TDUMP)
 
 #######################################
