@@ -92,8 +92,6 @@ compile: buildListGen
 #######################################
 envDetect: compileTools
 	${TEST_JDK_HOME}$(D)bin$(D)java -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
-	find . | grep autoGenEnv.mk$ | while read f; do echo $(f); iconv -f iso8859-1 -t ibm-1047 < $(f) > $(f.ebcdic); rm $(f); mv $(f.ebcdic) $(f); done;
-
 
 #######################################
 # Generate refined BUILD_LIST.
