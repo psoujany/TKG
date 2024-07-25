@@ -22,6 +22,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.io.Writer;
+import java.nio.charset.*;
 
 public class UtilsGen {
 	private Arguments arg;
