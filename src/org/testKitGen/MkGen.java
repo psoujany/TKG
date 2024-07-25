@@ -14,8 +14,12 @@
 
 package org.testKitGen;
 
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +50,7 @@ public class MkGen {
 	}
 
 	private void writeVars() {
-		try (FileWriter f = new FileWriter(makeFile)) {
+		try (Writer f = new OutputStreamWriter(new FileOutputStream(makeFile), Charset.forName("IBM-1047"))) {
 			String realtiveRoot = "";
 			int subdirlevel = dirList.size();
 			if (subdirlevel == 0) {
