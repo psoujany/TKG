@@ -45,7 +45,7 @@ public class UtilsGen {
 	}
 
 	private void generateUtil() {
-		try (Writer f = new OutputStreamWriter(new FileOutputStream(utilsMk), StandardCharsets.IBM-1047)) {
+		try (Writer f = new OutputStreamWriter(new FileOutputStream(utilsMk), Charset.forName("IBM-1047"))) {
 			f.write(Constants.HEADERCOMMENTS);
 			f.write("TOTALCOUNT := " + TestInfo.numOfTests() + "\n");
 			f.write("PLATFORM=\n");
