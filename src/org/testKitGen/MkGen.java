@@ -77,7 +77,6 @@ public class MkGen {
 	}
 
 	private void writeSingleTest(List<String> testsInPlaylist, TestInfo testInfo, Writer f) throws IOException {
-		f = new OutputStreamWriter(new FileOutputStream(makeFile), Charset.forName("IBM-1047"));
 		for (Variation var : testInfo.getVars()) {
 			// Generate make target
 			String testTargetName = var.getSubTestName();
@@ -229,7 +228,6 @@ public class MkGen {
 				testsInPlaylist.add(testTargetName);
 			}
 		}
-		f.close();
 	}
 
 	private void writeTargets() {
