@@ -38,7 +38,6 @@
 			<classpath>
 				<pathelement location="${json.jar}" />
 			</classpath>
-			<compilerarg value="-J-Dfile.encoding=IBM-1047" />
 		</javac>
 	</target>
 
