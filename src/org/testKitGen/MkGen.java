@@ -14,8 +14,12 @@
 
 package org.testKitGen;
 
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +50,7 @@ public class MkGen {
 	}
 
 	private void writeVars() {
-		try (FileWriter f = new FileWriter(makeFile)) {
+		try (Writer f = new OutputStreamWriter(new FileOutputStream(makeFile), Charset.forName("IBM-1047"))) {
 			String realtiveRoot = "";
 			int subdirlevel = dirList.size();
 			if (subdirlevel == 0) {
@@ -72,7 +76,7 @@ public class MkGen {
 		}
 	}
 
-	private void writeSingleTest(List<String> testsInPlaylist, TestInfo testInfo, FileWriter f) throws IOException {
+	private void writeSingleTest(List<String> testsInPlaylist, TestInfo testInfo, Writer f) throws IOException {
 		for (Variation var : testInfo.getVars()) {
 			// Generate make target
 			String testTargetName = var.getSubTestName();
@@ -227,7 +231,7 @@ public class MkGen {
 	}
 
 	private void writeTargets() {
-		try (FileWriter f = new FileWriter(makeFile, true)) {
+		try (Writer f = new OutputStreamWriter(new FileOutputStream(makeFile, true), Charset.forName("IBM-1047"))) {
 			if (!pli.getIncludeList().isEmpty()) {
 				for (String include : pli.getIncludeList()) {
 					f.write("-include " + include + "\n\n");

@@ -15,9 +15,13 @@
 package org.testKitGen;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
+import java.io.Writer;
+import java.nio.charset.*;
 
 public class UtilsGen {
 	private Arguments arg;
@@ -40,7 +44,7 @@ public class UtilsGen {
 	}
 
 	private void generateUtil() {
-		try (FileWriter f = new FileWriter(utilsMk)) {
+		try (Writer f = new OutputStreamWriter(new FileOutputStream(utilsMk), Charset.forName("IBM-1047"))) {
 			f.write(Constants.HEADERCOMMENTS);
 			f.write("TOTALCOUNT := " + TestInfo.numOfTests() + "\n");
 			f.write("PLATFORM=\n");
