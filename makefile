@@ -40,16 +40,15 @@ UNAME := uname
 UNAME_OS := $(shell $(UNAME) -s | cut -f1 -d_)
 ifeq ($(findstring CYGWIN,$(UNAME_OS)), CYGWIN)
 	LIB_DIR:=$(shell cygpath -w $(LIB_DIR))
-endif
-
-export LIB_DIR:=$(subst \,/,$(LIB_DIR))
-$(info LIB_DIR is set to $(LIB_DIR))
-
-ifeq ($(UNAME), OS/390)
+else ifeq ($(UNAME), OS/390)
 ifeq ($(shell test $(JDK_VERSION) -ge 21; echo $$?),0)
 	JVM_OPTIONS:= "-Dfile.encoding=IBM-1047"
 endif
 endif
+
+
+export LIB_DIR:=$(subst \,/,$(LIB_DIR))
+$(info LIB_DIR is set to $(LIB_DIR))
 
 _TESTTARGET = $(firstword $(MAKECMDGOALS))
 TESTTARGET = $(patsubst _%,%,$(_TESTTARGET))
