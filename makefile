@@ -45,6 +45,12 @@ endif
 export LIB_DIR:=$(subst \,/,$(LIB_DIR))
 $(info LIB_DIR is set to $(LIB_DIR))
 
+ifeq ($(UNAME), OS/390)
+ifeq ($(shell test $(JDK_VERSION) -ge 21; echo $$?),0)
+	JVM_OPTIONS:= "-Dfile.encoding=IBM-1047"
+endif
+endif
+
 _TESTTARGET = $(firstword $(MAKECMDGOALS))
 TESTTARGET = $(patsubst _%,%,$(_TESTTARGET))
 
@@ -82,13 +88,7 @@ compile: buildListGen
 # If AUTO_DETECT is turned on, compile and execute envDetector in build_envInfo.xml.
 #######################################
 envDetect: compileTools
-ifeq ($(UNAME), OS/390)
-ifeq ($(shell test $(JDK_VERSION) -ge 21; echo $$?),0)
-	${TEST_JDK_HOME}$(D)bin$(D)java -Dfile.encoding=IBM-1047 -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
-else 
-	${TEST_JDK_HOME}$(D)bin$(D)java -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
-endif
-endif
+	${TEST_JDK_HOME}$(D)bin$(D)java ${JVM_OPTIONS} -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
 
 #######################################
 # Generate refined BUILD_LIST.
