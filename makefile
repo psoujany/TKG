@@ -42,7 +42,7 @@ ifeq ($(findstring CYGWIN,$(UNAME_OS)), CYGWIN)
 	LIB_DIR:=$(shell cygpath -w $(LIB_DIR))
 else ifeq ($(UNAME), OS/390)
 ifeq ($(shell test $(JDK_VERSION) -ge 21; echo $$?),0)
-	JVM_OPTIONS:= "-Dfile.encoding=IBM-1047"
+JVM_OPTIONS:= "-Dfile.encoding=IBM-1047"
 endif
 endif
 
