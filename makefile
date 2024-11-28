@@ -43,6 +43,7 @@ ifeq ($(findstring CYGWIN,$(UNAME_OS)), CYGWIN)
 else ifeq ($(UNAME), OS/390)
 ifeq ($(shell test $(JDK_VERSION) -ge 21; echo $$?),0)
 JVM_OPTIONS:= "-Dfile.encoding=IBM-1047"
+$(info JVM_OPTIONS set $(JVM_OPTIONS))
 endif
 endif
 
