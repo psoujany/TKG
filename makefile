@@ -87,7 +87,7 @@ compile: buildListGen
 # If AUTO_DETECT is turned on, compile and execute envDetector in build_envInfo.xml.
 #######################################
 envDetect: compileTools
-	${TEST_JDK_HOME}$(D)bin$(D)java ${JVM_OPTIONS} -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
+	${TEST_JDK_HOME}$(D)bin$(D)java $(JVM_OPTIONS) -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
 
 #######################################
 # Generate refined BUILD_LIST.
