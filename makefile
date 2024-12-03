@@ -86,6 +86,8 @@ envDetect: compileTools
 ifeq ($(UNAME), OS/390)
 ifeq ($(shell test $(JDK_VERSION) -ge 21; echo $$?),0)
 	${TEST_JDK_HOME}$(D)bin$(D)java -Dfile.encoding=IBM-1047 -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
+else
+	${TEST_JDK_HOME}$(D)bin$(D)java -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
 endif
 endif
 
