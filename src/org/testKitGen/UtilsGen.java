@@ -27,9 +27,10 @@ public class UtilsGen {
 	private String rerunMk;
 	private List<String> ignoreOnRerunList;
 
-	public UtilsGen(Arguments arg, ModesDictionary md, List<String> ignoreOnRerunList) {
+	public UtilsGen(Arguments arg, ModesDictionary md, MkGen mg, List<String> ignoreOnRerunList) {
 		this.arg = arg;
 		this.md = md;
+		this.mg = mg;
 		this.utilsMk = arg.getProjectRootDir() + "/TKG/" + Constants.UTILSMK;
 		this.rerunMk = arg.getProjectRootDir() + "/TKG/" + Constants.RERUNMK;
 		this.ignoreOnRerunList = ignoreOnRerunList;
