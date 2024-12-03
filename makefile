@@ -38,8 +38,14 @@ endif
 
 UNAME := uname
 UNAME_OS := $(shell $(UNAME) -s | cut -f1 -d_)
+$(info UNAME_OS is $(UNAME_OS))
 ifeq ($(findstring CYGWIN,$(UNAME_OS)), CYGWIN)
 	LIB_DIR:=$(shell cygpath -w $(LIB_DIR))
+else ifeq ($(UNAME_OS),OS/390)
+ifeq ($(shell test $(JDK_VERSION) -ge 21; echo $$?),0)
+JVM_OPTIONS=-Dfile.encoding=IBM-1047
+$(info JVM_OPTIONS is "-Dfile.encoding=IBM-1047")
+endif
 endif
 
 
@@ -83,12 +89,7 @@ compile: buildListGen
 # If AUTO_DETECT is turned on, compile and execute envDetector in build_envInfo.xml.
 #######################################
 envDetect: compileTools
-ifeq ($(UNAME), OS/390)
-ifeq ($(shell test $(JDK_VERSION) -ge 21; echo $$?),0)
-	${TEST_JDK_HOME}$(D)bin$(D)java -Dfile.encoding=IBM-1047 -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
-endif
-endif
-	${TEST_JDK_HOME}$(D)bin$(D)java -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
+	${TEST_JDK_HOME}$(D)bin$(D)java $(JVM_OPTIONS) -cp .$(D)bin$(D)TestKitGen.jar org.openj9.envInfo.EnvDetector
 
 #######################################
 # Generate refined BUILD_LIST.
