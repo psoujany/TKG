@@ -107,7 +107,7 @@
 		<condition property="copy-encoding" value="IBM-1047" else="UTF-8">
 			<isset property="j21onZ"/>
 	    </condition>
-		<copy todir="${ascii.test.dir}" encoding="${copy-encoding}">
+		<copy todir="${ascii.test.dir}" outputencoding="${copy-encoding}">
 			<fileset dir="${ascii.workspace.dir}">
 				<include name="TKG/**" />
 				<include name="*.mk" />
