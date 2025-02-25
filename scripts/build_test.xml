@@ -28,11 +28,8 @@
 
 	<import file="./getDependencies.xml"/>
 
-	<condition property="j21onZ">
-		<and>
-			<contains string="${SPEC}" substring="zos"/>
-			<matches pattern="^21$" string="${JDK_VERSION}"/>
-		</and>
+	<condition property="isZOS" value="true">
+		<equals arg1="${os.name}" arg2="z/OS"/>
 	</condition>
 
 	<var name="build.list" value= "" />
@@ -105,7 +102,7 @@
 
 	<target name="stage_test_material" depends="-create_test_directory">
 		<condition property="copy-encoding" value="IBM-1047" else="UTF-8">
-			<isset property="j21onZ"/>
+			<isset property="isZOS"/>
 	    </condition>
 		<copy todir="${ascii.test.dir}" outputencoding="${copy-encoding}">
 			<fileset dir="${ascii.workspace.dir}">
