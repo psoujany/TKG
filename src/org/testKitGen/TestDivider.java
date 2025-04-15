@@ -212,7 +212,7 @@ public class TestDivider {
 		StringBuilder constantGroup = new StringBuilder();
 		for (int i=0; i < Constants.ALLGROUPS.size(); i++) {
 			constantGroup.append(i);
-			if (i < Constants.ALLGROUPS.size() -1) {
+			if (i < Constants.ALLGROUPS.size()-1) {
 				constantGroup.append("|");
 			}
 		}

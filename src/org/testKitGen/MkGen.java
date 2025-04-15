@@ -65,7 +65,7 @@ public class MkGen {
 			}
 			for (int i=0; i < subdirs.size(); i++) {
 				subdir.append(subdirs.get(i));
-				if (i < subdirs.size() -1) {
+				if (i < subdirs.size()-1) {
 					subdir.append(" ");
 				}
 			}
@@ -102,7 +102,7 @@ public class MkGen {
 				}
 				for (int i=0; i < dirList.size(); i++) {
 					target.append(i);
-					if (i < dirList.size() -1) {
+					if (i < dirList.size()-1) {
 						target.append("$(D)");
 					}
 				}

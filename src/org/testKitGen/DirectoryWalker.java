@@ -38,10 +38,11 @@ public class DirectoryWalker {
 		StringBuilder currentDir = new StringBuilder();
 		for (int i=0; i < dirList.size(); i++) {
 			currentDir.append(i);
-			if (i < dirList.size() -1) {
+			if (i < dirList.size()-1) {
 				currentDir.append("/");
 			}
 		}
+		System.out.println("currentDir is " +currentDir.toString());
 		if (!dirList.isEmpty()) {
 			absoluteDir = absoluteDir + '/' + currentDir.toString();
 		}

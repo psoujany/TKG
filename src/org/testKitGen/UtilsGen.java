@@ -67,7 +67,7 @@ public class UtilsGen {
 			f.write(Constants.HEADERCOMMENTS);
 			for (int i=0; i < ignoreOnRerunList.size(); i++) {
 				ignoreOnRerun.append(i);
-				if (i < ignoreOnRerunList.size() -1) {
+				if (i < ignoreOnRerunList.size()-1) {
 					ignoreOnRerun.append(",");
 				}
 			}
