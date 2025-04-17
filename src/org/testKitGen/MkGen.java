@@ -101,7 +101,7 @@ public class MkGen {
 					}
 				}
 				for (int i=0; i < dirList.size(); i++) {
-					target.append(i);
+					target.append(dirList.get(i));
 					if (i < dirList.size()-1) {
 						target.append("$(D)");
 					}

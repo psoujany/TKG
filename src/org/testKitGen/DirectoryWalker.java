@@ -37,7 +37,7 @@ public class DirectoryWalker {
 		String absoluteDir = arg.getProjectRootDir();
 		StringBuilder currentDir = new StringBuilder();
 		for (int i=0; i < dirList.size(); i++) {
-			currentDir.append(i);
+			currentDir.append(dirList.get(i));
 			if (i < dirList.size()-1) {
 				currentDir.append("/");
 			}
