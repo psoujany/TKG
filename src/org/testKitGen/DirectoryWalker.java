@@ -42,7 +42,6 @@ public class DirectoryWalker {
 				currentDir.append("/");
 			}
 		}
-		System.out.println("currentDir is " +currentDir.toString());
 		if (!dirList.isEmpty()) {
 			absoluteDir = absoluteDir + '/' + currentDir.toString();
 		}
