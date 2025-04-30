@@ -148,7 +148,8 @@ sub resultReporter {
 						$endTime = $1;
 						$tapString .= "    duration_ms: " . ($endTime - $startTime) . "\n  ...\n";
 						last;
-					} elsif ($result =~  /(Test results: .*)(passed|skipped|failed|error)(: .*\d{1,}$)/) {
+					} elsif ($result =~ /(Test results: .*)(passed|skipped|failed|error)/) {
+						# We have the Test results line
 						$testCasesPerTargetSummary = $result;
 						chomp($testCasesPerTargetSummary);
 						push (@testCasesResults, $result);					
@@ -200,7 +201,8 @@ sub resultReporter {
 							if ($buildList =~ /openjdk/) {
 								for my $i (0 .. $#lines) {
 									if ( $lines[$i] =~ /[-]{50}/) {
-										if ( ($lines[$i+1] =~ /(TEST: )(.*?)(\.java|\.sh|#.*)$/) || ($lines[$i+1] =~ /(Test results: .*)(failed|error)(: \d{1,}$)/) ) {
+										if ( ($lines[$i+1] =~ /(TEST: )(.*?)(\.java|\.sh|#.*)$/) || ($lines[$i+1] =~ /(Test results: .*)(failed|error)/) ) {
+											# We have a failed TEST: line, or we have the Test results line containing failed|error
 											$i++;
 											$failureTests .= $lines[$i] . "\n";
 										}
@@ -211,11 +213,13 @@ sub resultReporter {
 								for my $i (0 .. $#lines) {
 									$lines[$i] =~ s/^\s+|\s+$//g; 
 									if ( $lines[$i] =~ /(.*?)(\.html|#.*)(.*?)(Failed|Error\.)(.*?)/) {
+										# We have a jck testcase result line with Failed|Error in it
 										my @testsInfo = split(/\s+/, $lines[$i]);
 										my $testName = $testsInfo[0];
 										$testName =~ s/#.*//;
 										$failureTests .= '        ' ."TEST: " . $testName . "\n";
-									} elsif ( $lines[$i] =~  /(Test results: .*)(skipped|failed|error)(: \d{1,}$)/) {
+									} elsif ( $lines[$i] =~ /(Test results: .*)(failed|error)/) {
+										# We have the Test results line containing failed|error
 										$testResult = $lines[$i];
 									}
 								}
@@ -351,6 +355,7 @@ sub resultReporter {
 		my $timeStamp = gmtime();
 
 		#add AQACert.log content in TAP file
+		$tapPath =~ s[\\][/]g;
 		my $AQACert = $tapPath."../AQACert.log";
 		my $AQACertContent = `cat $AQACert`;
 		$AQACertContent =~ s/\n/\n# /g;
@@ -360,11 +365,11 @@ sub resultReporter {
 		my $host = hostname;
 		print $fhOut "# Hostname: " . $host . "\n\n";
 
-		#add SHA.txt content in TAP file
-		my $SHAFile = $tapPath."../SHA.txt";
+		#add SHAs.txt content in TAP file
+		my $SHAFile = $tapPath."../SHAs.txt";
 		my $SHAContent = `cat $SHAFile`;
 		$SHAContent =~ s/\n/\n# /g;
-		print $fhOut "#SHA.txt content: \n# " . $SHAContent . "\n";
+		print $fhOut "#SHAs.txt content: \n# " . $SHAContent . "\n";
 
 		print $fhOut "# Timestamp: " . $timeStamp . " UTC \n";
 

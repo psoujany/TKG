@@ -14,14 +14,18 @@
 
 package org.testKitGen;
 
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.openj9.envInfo.JavaInfo;
+import org.openj9.envInfo.Utility;
+
 public class MkGen {
 	private Arguments arg;
+	private JavaInfo jInfo;
 	private TestTarget tt;
 	private List<String> dirList;
 	private List<String> subdirs;
@@ -30,6 +34,7 @@ public class MkGen {
 
 	public MkGen(Arguments arg, TestTarget tt, PlaylistInfo pli, String makeFile, List<String> dirList, List<String> subdirs) {
 		this.arg = arg;
+		this.jInfo = new JavaInfo();
 		this.tt = tt;
 		this.dirList = dirList;
 		this.subdirs = subdirs;
@@ -46,7 +51,7 @@ public class MkGen {
 	}
 
 	private void writeVars() {
-		try (FileWriter f = new FileWriter(makeFile)) {
+		try (Writer f = Utility.getWriterObject(jInfo.getJDKVersion(), arg.getSpec(), makeFile)) {
 			String realtiveRoot = "";
 			int subdirlevel = dirList.size();
 			if (subdirlevel == 0) {
@@ -72,7 +77,7 @@ public class MkGen {
 		}
 	}
 
-	private void writeSingleTest(List<String> testsInPlaylist, TestInfo testInfo, FileWriter f) throws IOException {
+	private void writeSingleTest(List<String> testsInPlaylist, TestInfo testInfo, Writer f) throws IOException {
 		for (Variation var : testInfo.getVars()) {
 			// Generate make target
 			String testTargetName = var.getSubTestName();
@@ -96,7 +101,24 @@ public class MkGen {
 				f.write(testTargetName + ": TEST_GROUP=" + testInfo.getLevelStr() + "\n");
 				f.write(testTargetName + ": TEST_ITERATIONS=" + testInfo.getIterations() + "\n");
 				f.write(testTargetName + ": AOT_ITERATIONS=" + testInfo.getAotIterations() + "\n");
-
+				
+				// Set special openjdk problem list for JVM options that contains FIPS profile
+				// This feature is ignored if TEST_FLAG contains FIPS
+				if (arg.getBuildList().contains("openjdk")) {
+					String jvmOpts = var.getJvmOptions();
+					String customprofileStr = "-Dsemeru.customprofile=";
+					if (!arg.getTestFlag().contains("FIPS") && !jvmOpts.isEmpty() && jvmOpts.contains(customprofileStr)) {
+						String[] splited = jvmOpts.split("\\s+");
+						for (int i = 0; i < splited.length; i++) {
+							if (splited[i].contains(customprofileStr)) {
+								String fipsProfile = splited[i].replace(customprofileStr, "").trim();
+								f.write(testTargetName + ": FIPS_VARIATION_PROBLEM_LIST_FILE=-exclude:$(Q)$(JTREG_JDK_TEST_DIR)/ProblemList-" + fipsProfile + ".txt$(Q)\n");
+								break;
+							}
+						}
+					}
+				}
+				
 				f.write(testTargetName + ":\n");
 				f.write(indent + "@echo \"\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
 				f.write(indent
@@ -227,7 +249,7 @@ public class MkGen {
 	}
 
 	private void writeTargets() {
-		try (FileWriter f = new FileWriter(makeFile, true)) {
+		try (Writer f = Utility.getWriterObject(jInfo.getJDKVersion(), arg.getSpec(), makeFile)) {
 			if (!pli.getIncludeList().isEmpty()) {
 				for (String include : pli.getIncludeList()) {
 					f.write("-include " + include + "\n\n");

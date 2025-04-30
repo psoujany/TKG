@@ -32,6 +32,7 @@ ECHO_NEWLINE = $(ECHO) $(Q)$(Q)
 MKDIR     = mkdir
 MKTREE    = mkdir -p
 PWD       = pwd
+CP        = cp
 EXECUTABLE_SUFFIX =
 RUN_SCRIPT = sh
 RUN_SCRIPT_STRING = "sh -c"
@@ -166,6 +167,11 @@ endif
 JAVA_COMMAND:=$(Q)$(TEST_JDK_HOME)$(D)bin$(D)java$(Q)
 ifdef JRE_IMAGE
    JRE_COMMAND:=$(Q)$(JRE_IMAGE)$(D)bin$(D)java$(Q)
+endif
+
+JAVA_TO_TEST = $(JAVA_COMMAND)
+ifeq ($(USE_JRE),1)
+  JAVA_TO_TEST = $(JRE_COMMAND)
 endif
 
 #######################################
@@ -374,20 +380,14 @@ setup_%: testEnvSetup
 	@$(ECHO) set JDK_IMPL to $(JDK_IMPL)
 	@$(ECHO) set JVM_VERSION to $(JVM_VERSION)
 	@$(ECHO) set JCL_VERSION to $(JCL_VERSION)
-	@if [ $(OLD_JAVA_HOME) ]; then \
-		$(ECHO) JAVA_HOME was originally set to $(OLD_JAVA_HOME); \
-	fi
+	@$(if $(OLD_JAVA_HOME),$(ECHO) JAVA_HOME was originally set to $(OLD_JAVA_HOME))
 	@$(ECHO) set JAVA_HOME to $(JAVA_HOME)
 	@$(ECHO) set SPEC to $(SPEC)
 	@$(ECHO) set TEST_FLAG to $(TEST_FLAG)
-	@if [ $(MICROARCH) ]; then \
-		$(ECHO) set MICROARCH to $(MICROARCH); \
-	fi
-	@if [ $(OS_LABEL) ]; then \
-		$(ECHO) set OS_LABEL to $(OS_LABEL); \
-	fi
-
+	@$(if $(MICROARCH),$(ECHO) set MICROARCH to $(MICROARCH))
+	@$(if $(OS_LABEL),$(ECHO) set OS_LABEL to $(OS_LABEL))
 	@$(MKTREE) $(Q)$(TESTOUTPUT)$(Q)
+	@$(CP) $(Q)$(TEST_ROOT)$(D)TKG$(D)SHAs.txt$(Q) $(Q)$(TESTOUTPUT)$(D)$(Q)
 	@$(ECHO) Running $(TESTTARGET) ...
 	@if [ $(TOTALCOUNT) -ne 0 ]; then \
 		$(ECHO) There are $(TOTALCOUNT) test targets in $(TESTTARGET); \
@@ -414,7 +414,6 @@ OPENDJK_METHODHANDLES_ENABLED?=$(shell $(JAVA_COMMAND) -XshowSettings:properties
 ifneq (,$(findstring true,$(OPENDJK_METHODHANDLES_ENABLED)))
 	export EXCLUDE_FILE:=$(EXCLUDE_FILE),$(TEST_ROOT)$(D)TestConfig$(D)resources$(D)excludes$(D)feature_ojdkmh_exclude.txt
 endif
-# Issue to track excluded tests in x86-64_linux_vt_standard build: https://github.com/eclipse-openj9/openj9/issues/12878
 VALUE_TYPE_STANDARD_BUILD?=$(shell $(JAVA_COMMAND) -version 2>&1 | grep 'vtstandard')
 ifneq (,$(findstring vtstandard,$(VALUE_TYPE_STANDARD_BUILD)))
 	export EXCLUDE_FILE:=$(EXCLUDE_FILE),$(TEST_ROOT)$(D)TestConfig$(D)resources$(D)excludes$(D)feature_vtstandard_exclude.txt
