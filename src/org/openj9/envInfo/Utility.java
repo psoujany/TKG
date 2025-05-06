@@ -13,7 +13,7 @@ public class Utility {
 
     public static Writer getWriterObject(int jdkVersion, String SpecInfo, String fileName) {
 		try {
-			if (SpecInfo.toLowerCase().contains("zos") && (System.getProperty("file.encoding").equals("COMPAT"))) {
+			if (SpecInfo.toLowerCase().contains("zos")) {
 				writer = new OutputStreamWriter(new FileOutputStream(fileName, true), Charset.forName("IBM-1047"));
 			} else {
 				writer = new FileWriter(fileName, true);
