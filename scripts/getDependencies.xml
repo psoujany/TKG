@@ -24,7 +24,7 @@
 		<condition property="jtregOnZ">
 			<and>
 				<contains string="${SPEC}" substring="zos"/>
-				<matches pattern="^(11|17)$" string="${JDK_VERSION}"/>
+				<matches pattern="^(11|17|21)$" string="${JDK_VERSION}"/>
 			</and>
 		</condition>
 		<if>
