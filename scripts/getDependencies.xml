@@ -24,7 +24,7 @@
 		<condition property="jtregOnZ">
 			<and>
 				<contains string="${SPEC}" substring="zos"/>
-				<matches pattern="^(11|17)$" string="${JDK_VERSION}"/>
+				<matches pattern="^(11|1[7-9]|2[0-5])$" string="${JDK_VERSION}"/>
 			</and>
 		</condition>
 		<if>
@@ -40,7 +40,7 @@
 				-->
 				<isset property="jtregOnZ"/>
 				<then>
-					<property name="jtregTar" value="jtreg_6_1"/>
+					<property name="jtregTar" value="jtreg_5_2_1_1"/>
 				</then>
 			</elseif>
 			<elseif>
