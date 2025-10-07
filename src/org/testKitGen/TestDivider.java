@@ -15,7 +15,6 @@
 package org.testKitGen;
 
 import java.io.FileFilter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
 import java.util.*;
@@ -25,13 +24,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.FileReader;
+import java.io.Writer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import org.openj9.envInfo.JavaInfo;
+import org.openj9.envInfo.Utility;
+
 public class TestDivider {
 	private Arguments arg;
+	private JavaInfo jInfo;
 	private TestTarget tt;
 	private List<String> testsToExecute;
 	private List<String> testsToDisplay;
@@ -41,6 +45,7 @@ public class TestDivider {
 
 	public TestDivider(Arguments arg, TestTarget tt) {
 		this.arg = arg;
+		this.jInfo = new JavaInfo();
 		this.tt = tt;
 		testsToExecute = TestInfo.getTestsToExecute();
 		testsToDisplay = TestInfo.getTestsToDisplay();
@@ -107,7 +112,7 @@ public class TestDivider {
 	}
 
 	private String constructURL(String impl, String plat, String group, String level) {
-		int limit = 10; // limit the number of builds used to calculate the average duration
+		int limit = 100; // limit the number of builds used to calculate the average duration
 		String URL = (arg.getTRSSURL().isEmpty() ? Constants.TRSS_URL : arg.getTRSSURL()) + "/api/getTestAvgDuration?limit=" + limit + "&jdkVersion=" + arg.getJdkVersion() + "&impl=" + impl + "&platform=" + plat;
 
 		if (tt.isSingleTest()) {
@@ -350,7 +355,7 @@ public class TestDivider {
 
 	private void writeParallelmk(List<List<String>> parallelLists) {
 		try {
-			FileWriter f = new FileWriter(parallelmk);
+			Writer f = Utility.getWriterObject(jInfo.getJDKVersion(), arg.getSpec(),parallelmk);
 			f.write(Constants.HEADERCOMMENTS);
 			f.write("NUM_LIST=" + parallelLists.size() + "\n\n");
 			for (int i = 0; i < parallelLists.size(); i++) {

@@ -75,9 +75,9 @@ my %base = (
 		sha1 => 'a0f58cad836a410f6ba133aaa209aea7e54aaf8a'
 	},
 	byte_buddy => {
-		url => 'https://repo1.maven.org/maven2/net/bytebuddy/byte-buddy/1.15.4/byte-buddy-1.15.4.jar',
+		url => 'https://repo1.maven.org/maven2/net/bytebuddy/byte-buddy/1.17.4/byte-buddy-1.17.4.jar',
 		fname => 'byte-buddy.jar',
-		sha1 => 'e8bd42992701720649765383ff570f415190b83f'
+		sha1 => 'ffb8488d93290eff074fb542a596e4c5a26d0315'
 	},
 	byte_buddy_agent => {
 		url => 'https://repo1.maven.org/maven2/net/bytebuddy/byte-buddy-agent/1.15.4/byte-buddy-agent-1.15.4.jar',
@@ -167,18 +167,32 @@ my %base = (
 		shafn => 'jtreg_7_3_1_1.tar.gz.sha256sum.txt',
 		shaalg => '256'
 	},
-	jtreg_6_1 => {
-		url => 'https://ci.adoptium.net/job/dependency_pipeline/lastSuccessfulBuild/artifact/jtreg/jtreg-6+1.tar.gz',
-		fname => 'jtreg_6_1.tar.gz',
-		shaurl => 'https://ci.adoptium.net/job/dependency_pipeline/lastSuccessfulBuild/artifact/jtreg/jtreg-6+1.tar.gz.sha256sum.txt',
-		shafn => 'jtreg_6_1.tar.gz.sha256sum.txt',
-		shaalg => '256'
-	},
 	jtreg_7_4_1 => {
 		url => 'https://ci.adoptium.net/job/dependency_pipeline/lastSuccessfulBuild/artifact/jtreg/jtreg-7.4+1.tar.gz',
 		fname => 'jtreg_7_4_1.tar.gz',
 		shaurl => 'https://ci.adoptium.net/job/dependency_pipeline/lastSuccessfulBuild/artifact/jtreg/jtreg-7.4+1.tar.gz.sha256sum.txt',
 		shafn => 'jtreg_7_4_1.tar.gz.sha256sum.txt',
+		shaalg => '256'
+	},
+	jtreg_7_5_1_1 => {
+		url => 'https://ci.adoptium.net/job/dependency_pipeline/lastSuccessfulBuild/artifact/jtreg/jtreg-7.5.1+1.tar.gz',
+		fname => 'jtreg_7_5_1_1.tar.gz',
+		shaurl => 'https://ci.adoptium.net/job/dependency_pipeline/lastSuccessfulBuild/artifact/jtreg/jtreg-7.5.1+1.tar.gz.sha256sum.txt',
+		shafn => 'jtreg_7_5_1_1.tar.gz.sha256sum.txt',
+		shaalg => '256'
+	},
+	jtreg_7_5_2_1 => {
+		url => 'https://ci.adoptium.net/job/dependency_pipeline/lastSuccessfulBuild/artifact/jtreg/jtreg-7.5.2+1.tar.gz',
+		fname => 'jtreg_7_5_2_1.tar.gz',
+		shaurl => 'https://ci.adoptium.net/job/dependency_pipeline/lastSuccessfulBuild/artifact/jtreg/jtreg-7.5.2+1.tar.gz.sha256sum.txt',
+		shafn => 'jtreg_7_5_2_1.tar.gz.sha256sum.txt',
+		shaalg => '256'
+	},
+	jtreg_8_2 => {
+		url => 'https://ci.adoptium.net/job/dependency_pipeline/lastSuccessfulBuild/artifact/jtreg/jtreg-8+2.tar.gz',
+		fname => 'jtreg_8_2.tar.gz',
+		shaurl => 'https://ci.adoptium.net/job/dependency_pipeline/lastSuccessfulBuild/artifact/jtreg/jtreg-8+2.tar.gz.sha256sum.txt',
+		shafn => 'jtreg_8_2.tar.gz.sha256sum.txt',
 		shaalg => '256'
 	},
 	jython => {
@@ -192,9 +206,14 @@ my %base = (
 		sha1 => '200da75e67689e8a604ec6fe9a6f55b2c000b6ce'
 	},
 	maven => {
-		url => 'https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.tar.gz',
+		url => 'https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.10/apache-maven-3.9.10-bin.tar.gz',
 		fname => 'apache-maven-bin.tar.gz',
-		sha1 => '7f15c63c129f036dd5c96b1a591ed8d888f75617'
+		sha1 => 'b06edaf09ae03e77d65a9fa6ffc2f6db311b8334'
+	},
+	dacapo => {
+		url => '-L https://download.dacapobench.org/chopin/dacapo-23.11-MR2-chopin-minimal.zip',
+		fname => 'dacapo.zip', 
+		sha1 => '2dd4704900e43f4e22c70255b555c02177ef07c4'
 	});
 
 my %system_jars = (
