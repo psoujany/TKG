@@ -475,7 +475,7 @@ my %base = (
 	unicode_ucd_propvalaliases_13_0_0 => {
 		url => 'https://www.unicode.org/Public/13.0.0/ucd/PropertyValueAliases.txt',
 		fname => 'PropertyValueAliases-13.0.0.txt',
-		sha256 => '6b3902e9268cd843fe65cbdea992108c9528343ec0679f800b96f356bb553e5a',
+		sha256 => '124859d9021502cda214e67cd4ff27e319ce4705f3bf43e84f5cb2029c6ff4ae',
 		shaalg => '256'
 	},
 	unicode_ucd_unicodedata_12_1_0 => {
@@ -903,7 +903,7 @@ sub downloadFile {
 		# .txt SHA files are in ISO8859-1
 		# note _ENCODE_FILE_NEW flag is set for zos
 		if ('.txt' eq substr $filename, -length('.txt')) {
-			$output = qx{_ENCODE_FILE_NEW=ISO8859-1 curl $curlOpts -k -o $filename $url 2>&1};
+			$output = qx{_ENCODE_FILE_NEW=UNTAGGED curl $curlOpts -k -o $filename $url 2>&1};
 		} elsif ('.jar' eq substr $filename, -length('.jar')) {
 			$output = qx{_ENCODE_FILE_NEW=BINARY curl $curlOpts -k -o $filename $url 2>&1};
 		} else {
