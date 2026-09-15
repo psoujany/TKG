@@ -901,7 +901,7 @@ sub downloadFile {
 		} elsif ('.jar' eq substr $filename, -length('.jar')) {
 			$output = qx{_ENCODE_FILE_NEW=BINARY curl $curlOpts -k -o $filename $url 2>&1};
 		} else {
-			$output = qx{_ENCODE_FILE_NEW=UNTAGGED curl $curlOpts -k -o $filename $url 2>&1};
+			$output = qx{_ENCODE_FILE_NEW=BINARY curl $curlOpts -k -o $filename $url 2>&1};
 		}
 		$returnCode = $?;
 		last if $returnCode == 0;
